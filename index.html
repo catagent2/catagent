@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CATAGENT · Mint with your Binance AI agent</title>
+<meta name="description" content="Mint CATAGENT on BNB Smart Chain by pasting one command into your Binance AI agent.">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14161c;--deep:#0e1015;--line:#2a2e38;--paper:#efe9da;--mute:#a39f93;--gold:#f0b90b;--sans:"Bricolage Grotesque",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--paper);font:17px/1.6 system-ui,sans-serif}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+header{padding:22px 0;border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font:700 22px var(--sans);letter-spacing:.02em}
+.logo b{color:var(--gold)}
+nav a{margin-left:18px;font-size:15px;text-decoration:none;color:var(--mute)}
+nav a:hover{color:var(--paper)}
+h1{font:700 clamp(34px,6.4vw,60px)/1.05 var(--sans);margin:64px 0 18px;max-width:14em;letter-spacing:-.02em}
+h2{font:700 28px/1.2 var(--sans);margin:0 0 18px}
+.lead{color:var(--mute);max-width:36em;margin:0 0 34px}
+.cmd{background:var(--deep);border:1px solid var(--gold);border-radius:6px;padding:20px 22px 18px;position:relative}
+.cmd small{display:block;color:var(--mute);font-size:14px;margin-bottom:10px}
+.cmd pre{margin:0;white-space:pre-wrap;word-break:break-word;font:400 15.5px/1.65 var(--mono);color:var(--paper)}
+.cmd .row{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+button{font:700 16px var(--sans);background:var(--gold);color:#1a1500;border:0;border-radius:4px;padding:11px 20px;cursor:pointer}
+button:active{transform:translateY(1px)}
+.ok{color:var(--gold);font-size:15px;min-height:1.4em}
+.live{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:44px 0 0}
+.live div p{margin:0;color:var(--mute);font-size:15px}
+.live strong{display:block;font:700 34px var(--sans);margin:2px 0 8px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .6s}
+section{padding:68px 0 0}
+dl{margin:0;border-top:1px solid var(--line)}
+dl div{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+dt{color:var(--mute)}
+dd{margin:0}
+ol{padding-left:22px;margin:0;max-width:38em}
+ol li{margin-bottom:12px;padding-left:6px}
+.warn{border-left:3px solid var(--gold);padding:2px 0 2px 18px;max-width:40em}
+.warn li{margin-bottom:10px}
+code{font:400 14px var(--mono);word-break:break-all;background:var(--deep);padding:2px 6px;border-radius:3px}
+footer{margin-top:80px;padding:28px 0 46px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+footer p{max-width:46em;margin:0 0 8px}
+@media(max-width:600px){dl div{grid-template-columns:1fr;gap:2px}.live{grid-template-columns:1fr}nav a{margin-left:12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="logo">CAT<b>AGENT</b></div>
+  <nav><a href="#numbers">Numbers</a><a href="#steps">How to mint</a><a href="#trading">Trading</a><a href="#risks">Read first</a><a id="xlink" href="#" hidden>X</a></nav>
+</div></header>
+
+<main class="wrap">
+  <h1>Mint CATAGENT by telling your Binance AI agent to do it.</h1>
+  <p class="lead">Copy the command below, paste it into your Binance AI agent, and approve the two transactions it asks for. Pay 0.5 USDT per mint on BNB Smart Chain.</p>
+
+  <div class="cmd">
+    <small>Paste this into your Binance AI agent</small>
+    <pre id="cmdtext"></pre>
+    <div class="row"><button id="copy" type="button">Copy command</button><span class="ok" id="copied" role="status"></span></div>
+  </div>
+
+  <div class="live" aria-live="polite">
+    <div><p>Mints done</p><strong id="mints">—</strong><div class="bar"><i id="mbar"></i></div><p>of 100,000</p></div>
+    <div><p>Wallets minted</p><strong id="wallets">—</strong><div class="bar"><i id="wbar"></i></div><p>of 10,000</p></div>
+  </div>
+
+  <section id="numbers">
+    <h2>The numbers</h2>
+    <dl>
+      <div><dt>Network</dt><dd>BNB Smart Chain</dd></div>
+      <div><dt>Price</dt><dd>0.5 USDT per mint</dd></div>
+      <div><dt>You receive</dt><dd>400,000 CATAGENT per mint</dd></div>
+      <div><dt>Limit per wallet</dt><dd>10 mints (5 USDT, 4,000,000 CATAGENT)</dd></div>
+      <div><dt>Wallets allowed</dt><dd>10,000</dd></div>
+      <div><dt>Max supply</dt><dd>50,000,000,000 CATAGENT</dd></div>
+      <div><dt>Public mint</dt><dd>80% (40,000,000,000 CATAGENT)</dd></div>
+      <div><dt>Team treasury</dt><dd>20% (10,000,000,000 CATAGENT), minted once at deploy and visible on-chain</dd></div>
+      <div><dt>Where your USDT goes</dt><dd>Straight to the team treasury wallet inside the mint transaction. The contract holds no funds.</dd></div>
+      <div><dt>Contract</dt><dd><a id="scan" href="#" rel="noopener"><code id="addr">not set yet</code></a></dd></div>
+    </dl>
+  </section>
+
+  <section id="steps">
+    <h2>How to mint</h2>
+    <ol>
+      <li>Open your Binance AI agent wallet and make sure it holds at least 0.5 USDT (BEP-20) and a little BNB for gas.</li>
+      <li>Copy the command above and paste it into your agent.</li>
+      <li>The agent reads <a id="llms" href="llms.txt">llms.txt</a>, then asks you to confirm two transactions: a USDT approval and the mint.</li>
+      <li>Check the contract address in the confirmation matches the one on this page, then confirm. CATAGENT arrives in the same wallet.</li>
+    </ol>
+    <p class="lead" style="margin-top:22px">No AI agent? You can mint by hand on BscScan: open the USDT contract and call <code>approve</code> with the CATAGENT contract and the amount, then open the CATAGENT contract, choose Write Contract, connect your wallet and call <code>mint</code>. <a id="scanwrite" href="#">Open the contract on BscScan</a></p>
+  </section>
+
+  <section id="trading">
+    <h2>Trading</h2>
+    <p class="lead" style="margin:0">Minting and trading are separate. Trading on PancakeSwap opens only after the team adds liquidity. No date has been promised. Until then your CATAGENT stays in your wallet. To see it, add the contract address above as a custom token in your wallet.</p>
+  </section>
+
+  <section id="risks">
+    <h2>Read this before you mint</h2>
+    <ul class="warn">
+      <li>The team holds 20% of supply from day one. This is public in the contract.</li>
+      <li>Your USDT is paid to the team wallet. The contract does not create a trading pool. The team adds liquidity manually later, and nothing in the contract forces it to.</li>
+      <li>There is no promise of a price, a listing date or any profit. You can lose everything you pay.</li>
+      <li>Only send USDT through the two calls above. Never transfer USDT directly to the contract.</li>
+      <li>Check the legality of crypto in your own country before you mint.</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p>CATAGENT is a community token. This page is not investment advice.</p>
+  <p>The contract has no owner, no admin functions, no tax and no way to mint more supply.</p>
+</div></footer>
+
+<script>
+// ===== EDIT ONLY THIS BLOCK =====
+const CONFIG = {
+  CONTRACT: "0xd8902C652771F3BFc0744cd4825e72accAdD56B1", // deployed CATAGENT contract
+  X_URL: "https://x.com/catagentbnb",                           // e.g. https://x.com/catagentbnb (leave empty to hide)
+  RPC: "https://bsc-dataseed.binance.org"
+};
+// =================================
+
+const valid = /^0x[a-fA-F0-9]{40}$/.test(CONFIG.CONTRACT);
+const llmsUrl = new URL("llms.txt", location.href).href;
+document.getElementById("llms").href = llmsUrl;
+
+const cmd = "Read " + llmsUrl + " and mint CATAGENT on BNB Smart Chain for me.\n" +
+  "Mint 10 (cost 5 USDT, I receive 4,000,000 CATAGENT). Use only the contract " +
+  (valid ? CONFIG.CONTRACT : "<contract address from the website>") +
+  ". Approve exactly the USDT amount needed, then call mint(10). Never send USDT directly to the contract. Show me both transactions to confirm before sending.";
+document.getElementById("cmdtext").textContent = cmd;
+
+document.getElementById("copy").addEventListener("click", async () => {
+  const note = document.getElementById("copied");
+  try { await navigator.clipboard.writeText(cmd); note.textContent = "Copied. Paste it into your agent."; }
+  catch (e) {
+    const r = document.createRange(); r.selectNodeContents(document.getElementById("cmdtext"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    note.textContent = "Press Ctrl+C (or long-press) to copy the selected text.";
+  }
+});
+
+if (CONFIG.X_URL) { const x = document.getElementById("xlink"); x.href = CONFIG.X_URL; x.hidden = false; }
+if (valid) {
+  document.getElementById("addr").textContent = CONFIG.CONTRACT;
+  document.getElementById("scan").href = "https://bscscan.com/address/" + CONFIG.CONTRACT;
+  document.getElementById("scanwrite").href = "https://bscscan.com/address/" + CONFIG.CONTRACT + "#writeContract";
+}
+
+async function read(sel) {
+  const r = await fetch(CONFIG.RPC, { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: CONFIG.CONTRACT, data: sel }, "latest"] }) });
+  const j = await r.json();
+  return parseInt(j.result, 16);
+}
+async function live() {
+  if (!valid) return;
+  try {
+    const [m, w] = await Promise.all([read("0x1f21bfbf"), read("0xf97b57ec")]);
+    document.getElementById("mints").textContent = m.toLocaleString("en-US");
+    document.getElementById("wallets").textContent = w.toLocaleString("en-US");
+    document.getElementById("mbar").style.width = Math.min(100, m / 1000) + "%";
+    document.getElementById("wbar").style.width = Math.min(100, w / 100) + "%";
+  } catch (e) { /* leave dashes if the RPC is busy */ }
+}
+live(); setInterval(live, 30000);
+</script>
+</body>
+</html>

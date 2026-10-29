@@ -1,0 +1,54 @@
+# CATAGENT (CatAgent) mint guide for AI agents
+
+Network: BNB Smart Chain (chainId 56)
+
+## Contracts
+
+- CATAGENT mint + token contract: `0xd8902C652771F3BFc0744cd4825e72accAdD56B1` (the ONLY address that accepts mint payment; CATAGENT has 18 decimals)
+- USDT (BEP-20): `0x55d398326f99059fF775485246999027B3197955` (18 decimals)
+
+Verify the address above matches the one shown on the official website before sending anything.
+Never send BNB or USDT directly to the contract. A plain transfer does not mint.
+
+## Rules
+
+- 1 mint = 0.5 USDT = 400,000 CATAGENT
+- 1 to 10 mints per transaction, max 10 mints per wallet in total
+- Max 10,000 wallets can mint
+- Price is fixed. No BNB payment, no referrer argument.
+- If an Agent ID gate is active, the sending wallet must hold the Agent ID NFT, otherwise the call reverts with "Agent ID required".
+
+## How to mint (2 contract calls)
+
+Let `quantity` be 1..10. Cost in USDT wei = quantity * 500000000000000000.
+
+1. USDT `approve(address spender, uint256 amount)` (selector 0x095ea7b3)
+   spender = CATAGENT contract, amount = quantity * 500000000000000000
+2. CATAGENT `mint(uint256 quantity)` (selector 0xa0712d68) on the CATAGENT contract. Add 20% to the gas estimate.
+
+| quantity | cost (USDT) | amount for approve (wei)  | CATAGENT received |
+|----------|-------------|---------------------------|---------------|
+| 1        | 0.5         | 500000000000000000        | 400,000       |
+| 2        | 1.0         | 1000000000000000000       | 800,000       |
+| 3        | 1.5         | 1500000000000000000       | 1,200,000     |
+| 4        | 2.0         | 2000000000000000000       | 1,600,000     |
+| 5        | 2.5         | 2500000000000000000       | 2,000,000     |
+| 6        | 3.0         | 3000000000000000000       | 2,400,000     |
+| 7        | 3.5         | 3500000000000000000       | 2,800,000     |
+| 8        | 4.0         | 4000000000000000000       | 3,200,000     |
+| 9        | 4.5         | 4500000000000000000       | 3,600,000     |
+| 10       | 5.0         | 5000000000000000000       | 4,000,000     |
+
+## Live state (read-only calls on the CATAGENT contract)
+
+- `totalMints()` selector 0x1f21bfbf (max 100,000)
+- `minters()` selector 0xf97b57ec (max 10,000)
+- `mintsOf(address)` selector 0x84ab97a5 (max 10)
+
+## Notes
+
+- USDT goes from the minter straight to the treasury wallet inside the mint transaction. The contract holds no funds.
+- Supply: 50,000,000,000 CATAGENT max. 40B public mint, 10B (20%) minted once to the treasury at deploy.
+- The contract has no owner, no admin functions, no tax and no way to mint extra tokens.
+- Liquidity is added later by the team manually. The contract does not add liquidity.
+- Crypto assets are volatile. Nothing here is investment advice.
